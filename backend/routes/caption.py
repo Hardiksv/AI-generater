@@ -1,37 +1,34 @@
-import os
 import requests
+import os
 from dotenv import load_dotenv
-from utils.openai_client import groq_chat
+
 load_dotenv()
 
-GROQ_API_KEY = os.getenv("GROQ_API_KEY")
-
-def generate_caption(prompt):
-    url = "https://api.groq.com/openai/v1/chat/completions"
+def generate_captions(prompt):
     headers = {
         "Content-Type": "application/json",
-        "Authorization": f"Bearer {GROQ_API_KEY}"
+        "Authorization": f"Bearer {os.getenv('GROQ_API_KEY')}"
     }
 
-    payload = {
+    # 👇 Custom prompt to generate clear, social-media-ready captions
+    user_prompt = (
+        f"Write exactly 5 short, creative, and engaging Instagram captions for: {prompt}. "
+        "Make them attention-grabbing, fun, and suitable for marketing or branding. "
+        "List them each on a new line. No numbering or bullet points."
+    )
+
+    body = {
         "model": "meta-llama/llama-4-scout-17b-16e-instruct",
-        "messages": [
-            {"role": "user", "content": f"Write a short, creative Instagram caption for: {prompt}"}
-        ],
-        "temperature": 0.7
+        "messages": [{"role": "user", "content": user_prompt}]
     }
 
     try:
-        response = requests.post(url, headers=headers, json=payload)
-        response.raise_for_status()
-        data = response.json()
-        return data['choices'][0]['message']['content'].strip()
+        response = requests.post("https://api.groq.com/openai/v1/chat/completions", json=body, headers=headers)
+        result = response.json()
+        content = result["choices"][0]["message"]["content"].strip()
+
+        # ✅ Split captions by line
+        captions = [line.strip("-•* ").strip() for line in content.split("\n") if line.strip()]
+        return captions[:5] if captions else ["❌ No captions generated."]
     except Exception as e:
-        return f"Error: {str(e)}"
-
-# from utils.openai_client import groq_chat
-
-# def generate_caption(prompt):
-#     system_prompt = "You are a helpful assistant that writes trendy and engaging Instagram captions for marketing."
-#     return groq_chat(system_prompt, prompt)
-
+        return [f"❌ Error: {str(e)}"]
