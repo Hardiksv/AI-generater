@@ -3,6 +3,7 @@ from flask_cors import CORS
 from routes.caption import generate_captions 
 from routes.headline import generate_headline
 from routes.description import generate_description
+import os
 
 # Initialize Flask App
 app = Flask(__name__)
@@ -53,4 +54,5 @@ def description_route():
 
 # Run the app
 if __name__ == "__main__":
-    app.run(debug=True)
+    port = int(os.environ.get("PORT", 5000))
+    app.run(debug=True, host="0.0.0.0", port=port)
