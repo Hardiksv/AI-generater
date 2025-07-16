@@ -8,8 +8,8 @@ import os
 # Initialize Flask App
 app = Flask(__name__)
 
-# ✅ Enable CORS for frontend at localhost:3000
-CORS(app, resources={r"/api/*": {"origins": ["http://localhost:3000", "https://aicontentgeneration.netlify.app"]}})
+CORS(app, resources={r"/api/*": {"origins": "*"}}, supports_credentials=True)
+
 
 
 # Root test route
