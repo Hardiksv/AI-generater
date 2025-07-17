@@ -1,34 +1,3 @@
-// import React from "react";
-
-// const Dashboard = ({ onSelect }) => {
-//   const options = [
-//     { label: "Generate Caption", value: "caption" },
-//     { label: "Generate Headline", value: "headline" },
-//     { label: "Generate Description", value: "description" },
-//   ];
-
-//   return (
-//     <div className="min-h-screen flex items-center justify-center bg-gray-100">
-//       <div className="bg-white p-8 rounded-lg shadow-md w-96 text-center">
-//         <h2 className="text-2xl font-bold mb-4">Choose a Content Type</h2>
-//         <div className="flex flex-col gap-4">
-//           {options.map((option) => (
-//             <button
-//               key={option.value}
-//               onClick={() => onSelect(option.value)}
-//               className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded"
-//             >
-//               {option.label}
-//             </button>
-//           ))}
-//         </div>
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default Dashboard;
-
 import React from "react";
 import { motion } from "framer-motion";
 
